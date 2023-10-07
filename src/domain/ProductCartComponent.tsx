@@ -1,8 +1,8 @@
 import React, {useMemo} from 'react';
 import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {IProduct} from '../interfaces';
-import FastImage from 'react-native-fast-image';
 import {useSelector} from 'react-redux';
+import {CustomImageComponent} from '../components';
 
 interface IProductItemProps {
   item: IProduct;
@@ -19,70 +19,30 @@ const ProductCartComponent = ({item, onPress}: IProductItemProps) => {
     return filter.length;
   }, [items]);
   return (
-    <View style={styles.card_template}>
-      <FastImage
-        style={{
-          width: 60,
-          height: 60,
-          alignSelf: 'center',
-          borderWidth: 1,
-          borderColor: 'lightgray',
-        }}
-        source={{
-          uri: item.img.replace('http:', 'https:'),
-          cache: FastImage.cacheControl.web,
-          priority: FastImage.priority.normal,
-        }}
-        resizeMode={FastImage.resizeMode.cover}
+    <View style={styles.cardTemplate}>
+      <CustomImageComponent
+        url={item.img}
+        height={60}
+        width={60}
+        style={styles.imageStyle}
       />
-      <View
-        style={{
-          flex: 1,
-          flexDirection: 'column',
-          marginHorizontal: 8,
-        }}>
-        <Text
-          style={{flexWrap: 'wrap', flex: 1, fontWeight: '400'}}
-          numberOfLines={2}
-          ellipsizeMode="tail">
+
+      <View style={styles.nameViewStyle}>
+        <Text style={styles.nameStyle} numberOfLines={2} ellipsizeMode="tail">
           {item.name}
         </Text>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginTop: 8,
-            alignItems: 'center',
-          }}>
-          <Text
-            style={{
-              fontWeight: 'bold',
-              color: '#fc19c3',
-            }}>{`$${item.price}`}</Text>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <View style={styles.priceViewStyle}>
+          <Text style={styles.priceTxtStyle}>{`$${item.price}`}</Text>
+          <View style={styles.removeButtonViewStyle}>
             <TouchableOpacity
+              testID={`${item.id}btnID`}
               onPress={() => {
                 onPress(item);
               }}
-              style={{
-                backgroundColor: '#E6FFE6',
-                paddingHorizontal: 16,
-                borderRadius: 8,
-                paddingVertical: 8,
-                borderWidth: 1,
-                borderColor: 'green',
-              }}>
-              <Text style={{color: 'green', fontWeight: 'bold', fontSize: 10}}>
-                REMOVE
-              </Text>
+              style={styles.removeBtnStyle}>
+              <Text style={styles.removeTxtStyle}>REMOVE</Text>
             </TouchableOpacity>
-            <Text
-              style={{
-                marginLeft: 8,
-                fontWeight: 'bold',
-              }}>
-              {getItemCount}
-            </Text>
+            <Text style={styles.cartTotalStyle}>{getItemCount}</Text>
           </View>
         </View>
       </View>
@@ -91,7 +51,7 @@ const ProductCartComponent = ({item, onPress}: IProductItemProps) => {
 };
 
 const styles = StyleSheet.create({
-  card_template: {
+  cardTemplate: {
     backgroundColor: 'white',
     margin: 8,
     padding: 16,
@@ -99,6 +59,40 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     shadowColor: 'rgba(0, 0, 0, 0.5)',
     boxShadow: '10px 10px 17px -12px rgba(0,0,0,0.75)',
+  },
+  imageStyle: {
+    borderWidth: 1,
+    borderColor: 'lightgray',
+  },
+  nameViewStyle: {
+    flex: 1,
+    flexDirection: 'column',
+    marginHorizontal: 8,
+  },
+  nameStyle: {flexWrap: 'wrap', flex: 1, fontWeight: '400'},
+  priceViewStyle: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 8,
+    alignItems: 'center',
+  },
+  priceTxtStyle: {
+    fontWeight: 'bold',
+    color: '#fc19c3',
+  },
+  removeButtonViewStyle: {flexDirection: 'row', alignItems: 'center'},
+  removeBtnStyle: {
+    backgroundColor: '#E6FFE6',
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    paddingVertical: 8,
+    borderWidth: 1,
+    borderColor: 'green',
+  },
+  removeTxtStyle: {color: 'green', fontWeight: 'bold', fontSize: 10},
+  cartTotalStyle: {
+    marginLeft: 8,
+    fontWeight: 'bold',
   },
 });
 

@@ -1,9 +1,8 @@
 import React from 'react';
 import {View, StyleSheet, Text, TouchableOpacity, Image} from 'react-native';
 import {IProduct} from '../interfaces';
-import FastImage from 'react-native-fast-image';
-import {ColorComponent} from '../components';
-import favourite from '../assets/favourite.png';
+import {ColorComponent, CustomImageComponent} from '../components';
+import {favourite} from '../assets';
 
 interface IProductItemProps {
   item: IProduct;
@@ -12,54 +11,24 @@ interface IProductItemProps {
 // image size should be small
 const ProductItemComponent = ({item, onPress}: IProductItemProps) => {
   return (
-    <View style={styles.card_template}>
-      <View style={{flexDirection: 'column'}}>
-        <FastImage
-          style={{width: 100, height: 200, alignSelf: 'center'}}
-          source={{
-            uri: item.img.replace('http:', 'https:'),
-            cache: FastImage.cacheControl.web,
-            priority: FastImage.priority.normal,
-          }}
-          resizeMode={FastImage.resizeMode.cover}
-        />
-        <Text style={{marginTop: 16}}>{item.name}</Text>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            paddingHorizontal: 4,
-            alignItems: 'center',
-          }}>
+    <View style={styles.cardTemplate}>
+      <View style={styles.columnStyle}>
+        <CustomImageComponent url={item.img} height={200} width={100} />
+        <Text style={styles.itemNameStyle}>{item.name}</Text>
+        <View style={styles.colorViewStyle}>
           <ColorComponent colorCode={item.colour} />
-          <Image style={{width: 24, height: 24}} source={favourite} />
+          <Image style={styles.imageStyle} source={favourite} />
         </View>
 
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginTop: 8,
-            alignItems: 'center',
-          }}>
-          <Text
-            style={{
-              fontWeight: 'bold',
-              color: '#fc19c3',
-            }}>{`$${item.price}`}</Text>
+        <View style={styles.priceViewStyle}>
+          <Text style={styles.priceTxtStyle}>{`$${item.price}`}</Text>
           <TouchableOpacity
+            testID={`${item.id}addId`}
             onPress={() => {
               onPress(item);
             }}
-            style={{
-              backgroundColor: '#E6FFE6',
-              paddingHorizontal: 16,
-              borderRadius: 8,
-              paddingVertical: 8,
-              borderWidth: 1,
-              borderColor: 'green',
-            }}>
-            <Text style={{color: 'green', fontWeight: 'bold'}}>ADD</Text>
+            style={styles.addViewStyle}>
+            <Text style={styles.addTxtStyle}>ADD</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -73,7 +42,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  card_template: {
+  cardTemplate: {
     flex: 1,
     backgroundColor: 'white',
     margin: 8,
@@ -82,11 +51,34 @@ const styles = StyleSheet.create({
     shadowColor: 'rgba(0, 0, 0, 0.5)',
     boxShadow: '10px 10px 17px -12px rgba(0,0,0,0.75)',
   },
-  card_image: {
-    width: 250,
-    height: 250,
-    borderRadius: 10,
+  columnStyle: {flexDirection: 'column'},
+  itemNameStyle: {marginTop: 16, fontWeight: '400'},
+  colorViewStyle: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 4,
+    alignItems: 'center',
   },
+  imageStyle: {width: 24, height: 24},
+  priceViewStyle: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 8,
+    alignItems: 'center',
+  },
+  priceTxtStyle: {
+    fontWeight: 'bold',
+    color: '#fc19c3',
+  },
+  addViewStyle: {
+    backgroundColor: '#E6FFE6',
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    paddingVertical: 8,
+    borderWidth: 1,
+    borderColor: 'green',
+  },
+  addTxtStyle: {color: 'green', fontWeight: 'bold'},
 });
 
 export default React.memo(ProductItemComponent);

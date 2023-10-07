@@ -1,7 +1,6 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {useNetInfo} from '@react-native-community/netinfo';
 
 interface ScreenProps {
   hasScrollView: boolean;
@@ -9,24 +8,11 @@ interface ScreenProps {
 }
 
 export const Screen = ({children, hasScrollView}: ScreenProps) => {
-  const netInfo = useNetInfo();
-
-  const renderNetworkBanner = (): JSX.Element => {
-    if (netInfo.isConnected != null && !netInfo.isConnected) {
-      return (
-        <View>
-          <Text>Network not </Text>
-        </View>
-      );
-    }
-    return <></>;
-  };
-
   if (!hasScrollView) {
     return (
       <View>
         {children}
-        {renderNetworkBanner()}
+        {/* {renderNetworkBanner()} */}
       </View>
     );
   }
@@ -34,7 +20,7 @@ export const Screen = ({children, hasScrollView}: ScreenProps) => {
     <View>
       <KeyboardAwareScrollView>
         {children}
-        {renderNetworkBanner()}
+        {/* {renderNetworkBanner()} */}
       </KeyboardAwareScrollView>
     </View>
   );
