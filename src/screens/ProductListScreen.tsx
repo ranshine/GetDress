@@ -1,4 +1,4 @@
-import React, {useEffect, useLayoutEffect} from 'react';
+import React, {useEffect, useLayoutEffect, useCallback} from 'react';
 import {
   FlatList,
   View,
@@ -67,9 +67,14 @@ export const ProductListScreen = (): JSX.Element => {
     dispatch(addToCart(item));
   };
 
-  const renderListComponent = ({item}) => {
+  const getKeyExtractor = useCallback(
+    (item, index) => JSON.stringify(item) + index,
+    [],
+  );
+
+  const renderListComponent = useCallback(({item}) => {
     return <ProductItemComponent item={item} onPress={onItemClick} />;
-  };
+  }, []);
 
   if (loading) {
     return (
@@ -89,7 +94,7 @@ export const ProductListScreen = (): JSX.Element => {
           numColumns={2}
           data={data}
           extraData={data}
-          keyExtractor={(item, index) => JSON.stringify(item) + index}
+          keyExtractor={getKeyExtractor}
           renderItem={renderListComponent}
           initialNumToRender={6}
         />

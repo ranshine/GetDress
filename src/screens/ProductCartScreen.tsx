@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useMemo} from 'react';
+import React, {useEffect, useState, useMemo, useCallback} from 'react';
 import {Screen} from '../components';
 import {FlatList, View, Text, StyleSheet} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
@@ -29,9 +29,10 @@ export const ProductCartScreen = (): JSX.Element => {
     dispatch(removeFromCart(item));
   };
 
-  const renderListComponent = ({item, index}) => {
+  const renderListComponent = useCallback(({item}) => {
     return <ProductCartComponent item={item} onPress={onItemClick} />;
-  };
+  }, []);
+
   const getItemsCount = useMemo(() => {
     let total = 0;
     items.forEach(element => {
@@ -52,6 +53,11 @@ export const ProductCartScreen = (): JSX.Element => {
       </View>
     );
   };
+  const getKeyExtractor = useCallback(
+    (item, index) => JSON.stringify(item) + index,
+    [],
+  );
+
   return (
     <Screen hasScrollView={false}>
       {list.length > 0 ? (
@@ -59,7 +65,7 @@ export const ProductCartScreen = (): JSX.Element => {
           testID="productCartListId"
           data={list}
           extraData={list}
-          keyExtractor={(item, index) => JSON.stringify(item) + index}
+          keyExtractor={getKeyExtractor}
           renderItem={renderListComponent}
           initialNumToRender={8}
           ListFooterComponent={billComponent}
