@@ -14,7 +14,9 @@ const ProductItemComponent = ({item, onPress}: IProductItemProps) => {
     <View style={styles.cardTemplate}>
       <View style={styles.columnStyle}>
         <CustomImageComponent url={item.img} height={200} width={100} />
-        <Text style={styles.itemNameStyle}>{item.name}</Text>
+        <Text numberOfLines={2} style={styles.itemNameStyle}>
+          {item.name}
+        </Text>
         <View style={styles.colorViewStyle}>
           <ColorComponent colorCode={item.colour} />
           <Image style={styles.imageStyle} source={favourite} />
@@ -52,7 +54,7 @@ const styles = StyleSheet.create({
     boxShadow: '10px 10px 17px -12px rgba(0,0,0,0.75)',
   },
   columnStyle: {flexDirection: 'column'},
-  itemNameStyle: {marginTop: 16, fontWeight: '400'},
+  itemNameStyle: {marginTop: 16, fontWeight: '400', flex: 1, flexWrap: 'wrap'},
   colorViewStyle: {
     flexDirection: 'row',
     justifyContent: 'space-between',

@@ -14,15 +14,26 @@ import {getProducts, addToCart} from '../store/ActionCreators';
 import ProductItemComponent from '../domain/ProductItemComponent';
 import {useNavigation} from '@react-navigation/native';
 import {PRODUCT_CART} from '../navigation/Routes';
-import {IProduct} from '../interfaces';
+import {IProduct, IProductCartState, IProductState} from '../interfaces';
 import {cart} from '../assets';
 import {NO_ITEMS_FOUND} from '../utils/AppConstants';
+
+interface IProductRootState {
+  productList: IProductState;
+}
+interface IProductCartRootState {
+  productCart: IProductCartState;
+}
 
 export const ProductListScreen = (): JSX.Element => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const {loading, error, data} = useSelector(state => state.productList);
-  const {items} = useSelector(state => state.productCart);
+  const {loading, error, data} = useSelector(
+    (state: IProductRootState) => state.productList,
+  );
+  const {items} = useSelector(
+    (state: IProductCartRootState) => state.productCart,
+  );
 
   useEffect(() => {
     dispatch(getProducts());
@@ -72,13 +83,13 @@ export const ProductListScreen = (): JSX.Element => {
 
   return (
     <Screen hasScrollView={false}>
-      {data.length > 0 ? (
+      {data.length > 0 && error === '' ? (
         <FlatList
           testID="productListId"
           numColumns={2}
           data={data}
           extraData={data}
-          keyExtractor={(item, index) => item.id + index}
+          keyExtractor={(item, index) => JSON.stringify(item) + index}
           renderItem={renderListComponent}
           initialNumToRender={6}
         />

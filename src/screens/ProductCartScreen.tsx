@@ -4,12 +4,17 @@ import {FlatList, View, Text, StyleSheet} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {removeFromCart} from '../store/ActionCreators';
 import ProductCartComponent from '../domain/ProductCartComponent';
-import {IProduct} from '../interfaces';
+import {IProduct, IProductCartState} from '../interfaces';
 import {CART_EMPTY} from '../utils/AppConstants';
 
+interface IProductCartRootState {
+  productCart: IProductCartState;
+}
 export const ProductCartScreen = (): JSX.Element => {
   const dispatch = useDispatch();
-  const {items} = useSelector(state => state.productCart);
+  const {items} = useSelector(
+    (state: IProductCartRootState) => state.productCart,
+  );
   const [list, setList] = useState<IProduct[]>([]);
 
   useEffect(() => {

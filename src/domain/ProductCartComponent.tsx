@@ -1,6 +1,6 @@
 import React, {useMemo} from 'react';
 import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
-import {IProduct} from '../interfaces';
+import {IProduct, IProductCartState} from '../interfaces';
 import {useSelector} from 'react-redux';
 import {CustomImageComponent} from '../components';
 
@@ -8,9 +8,14 @@ interface IProductItemProps {
   item: IProduct;
   onPress: (item: IProduct) => void;
 }
+interface IProductCartRootState {
+  productCart: IProductCartState;
+}
 // image size should be small
 const ProductCartComponent = ({item, onPress}: IProductItemProps) => {
-  const {items} = useSelector(state => state.productCart);
+  const {items} = useSelector(
+    (state: IProductCartRootState) => state.productCart,
+  );
 
   const getItemCount = useMemo(() => {
     const filter = items.filter(currentItem => {
