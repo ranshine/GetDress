@@ -8,6 +8,7 @@ This is a new [**React Native**](https://reactnative.dev) project, bootstrapped 
  <img src="demo/image3.png" width="400" height="600"/>
 
  <img src="demo/image4.png" width="400" height="600"/>
+  <img src="demo/image5.png" width="400" height="600"/>
 
 > **Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
 
