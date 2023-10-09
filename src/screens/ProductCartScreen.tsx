@@ -2,10 +2,11 @@ import React, {useEffect, useState, useMemo, useCallback} from 'react';
 import {Screen} from '../components';
 import {FlatList, View, Text, StyleSheet} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {removeFromCart} from '../store/ActionCreators';
+import {addToCart, removeFromCart} from '../store/ActionCreators';
 import ProductCartComponent from '../domain/ProductCartComponent';
 import {IProduct, IProductCartState} from '../interfaces';
 import {CART_EMPTY} from '../utils/AppConstants';
+import { ADD_PRODUCT } from '../store/ActionTypes';
 
 interface IProductCartRootState {
   productCart: IProductCartState;
@@ -25,8 +26,12 @@ export const ProductCartScreen = (): JSX.Element => {
     setList([...newList]);
   }, [items]);
 
-  const onItemClick = (item: IProduct): void => {
-    dispatch(removeFromCart(item));
+  const onItemClick = (item: IProduct, type: string): void => {
+    if(type === ADD_PRODUCT){
+      dispatch(addToCart(item)) 
+    } else {
+      dispatch(removeFromCart(item));
+    }
   };
 
   const renderListComponent = useCallback(({item}) => {

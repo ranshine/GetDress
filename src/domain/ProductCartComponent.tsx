@@ -3,10 +3,11 @@ import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {IProduct, IProductCartState} from '../interfaces';
 import {useSelector} from 'react-redux';
 import {CustomImageComponent} from '../components';
+import { ADD_PRODUCT, REMOVE_PRODUCT } from '../store/ActionTypes';
 
 interface IProductItemProps {
   item: IProduct;
-  onPress: (item: IProduct) => void;
+  onPress: (item: IProduct, type: string) => void;
 }
 interface IProductCartRootState {
   productCart: IProductCartState;
@@ -40,14 +41,22 @@ const ProductCartComponent = ({item, onPress}: IProductItemProps) => {
           <Text style={styles.priceTxtStyle}>{`$${item.price}`}</Text>
           <View style={styles.removeButtonViewStyle}>
             <TouchableOpacity
-              testID={`${item.id}btnID`}
+              testID={`${item.id}addbtnID`}
               onPress={() => {
-                onPress(item);
+                onPress(item,ADD_PRODUCT);
               }}
               style={styles.removeBtnStyle}>
               <Text style={styles.removeTxtStyle}>REMOVE</Text>
             </TouchableOpacity>
             <Text style={styles.cartTotalStyle}>{getItemCount}</Text>
+            <TouchableOpacity
+              testID={`${item.id}removebtnID`}
+              onPress={() => {
+                onPress(item,REMOVE_PRODUCT);
+              }}
+              style={styles.removeBtnStyle}>
+              <Text style={styles.removeTxtStyle}>REMOVE</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -89,15 +98,16 @@ const styles = StyleSheet.create({
   removeBtnStyle: {
     backgroundColor: '#E6FFE6',
     paddingHorizontal: 16,
-    borderRadius: 8,
+    borderRadius: 18,
     paddingVertical: 8,
     borderWidth: 1,
     borderColor: 'green',
   },
-  removeTxtStyle: {color: 'green', fontWeight: 'bold', fontSize: 10},
+  removeTxtStyle: {color: 'green', fontWeight: 'bold', fontSize: 16},
   cartTotalStyle: {
     marginLeft: 8,
     fontWeight: 'bold',
+    fontSize:14
   },
 });
 

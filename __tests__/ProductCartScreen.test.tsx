@@ -185,7 +185,38 @@ describe('testing product cart screen', () => {
         <ProductCartScreen />
       </Provider>,
     );
-    const removeBtn = screen.getByTestId('1btnID');
+    const removeBtn = screen.getByTestId('1removebtnID');
     fireEvent.press(removeBtn);
+  });
+  it('add item to cart', async () => {
+    const mockState = {
+      productCart: {
+        items: [
+          {
+            id: 1,
+            colour: 'Black',
+            name: 'Black Sheet Strappy Textured Glitter Bodycon Dress',
+            price: 10,
+            img: 'http://cdn-img.prettylittlething.com/9/0/a/a/90aa90903a135ee59594f47c7685aa7ef3046e44_cly8063_1.jpg?imwidth=1024',
+          },
+          {
+            id: 2,
+            colour: 'Black',
+            name: 'Black Frill Tie Shoulder Bodycon Dress',
+            price: 8,
+            img: 'https://cdn-img.prettylittlething.com/d/c/3/3/dc337260f9ecefdb99a8c8e98cd73ccb1b79cea5_cmb6804_4.jpg?imwidth=1024',
+          },
+        ],
+      },
+    };
+    const mockStore = configureStore([thunk]);
+    const store = mockStore(mockState);
+    render(
+      <Provider store={store}>
+        <ProductCartScreen />
+      </Provider>,
+    );
+    const addBtn = screen.getByTestId('1addbtnID');
+    fireEvent.press(addBtn);
   });
 });
