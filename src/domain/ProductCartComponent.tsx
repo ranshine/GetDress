@@ -46,7 +46,7 @@ const ProductCartComponent = ({item, onPress}: IProductItemProps) => {
                 onPress(item,ADD_PRODUCT);
               }}
               style={styles.removeBtnStyle}>
-              <Text style={styles.removeTxtStyle}>REMOVE</Text>
+              <Text style={styles.removeTxtStyle}>+</Text>
             </TouchableOpacity>
             <Text style={styles.cartTotalStyle}>{getItemCount}</Text>
             <TouchableOpacity
@@ -55,7 +55,7 @@ const ProductCartComponent = ({item, onPress}: IProductItemProps) => {
                 onPress(item,REMOVE_PRODUCT);
               }}
               style={styles.removeBtnStyle}>
-              <Text style={styles.removeTxtStyle}>REMOVE</Text>
+              <Text style={styles.removeTxtStyle}>-</Text>
             </TouchableOpacity>
           </View>
         </View>

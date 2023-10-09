@@ -6,6 +6,8 @@ import {
   GET_PRODUCT_LIST_SUCCESS,
   REMOVE_PRODUCT,
 } from './ActionTypes';
+import axios from 'axios';
+import { PRODUCTS_URL } from '../utils/AppConstants';
 
 export const getProducts = () => {
   return dispatch => {
@@ -17,21 +19,14 @@ export const getProducts = () => {
         data: [],
       },
     });
-    fetch(
-      'https://my-json-server.typicode.com/benirvingplt/products/products',
-      {
-        method: 'GET',
-        headers: {},
-      },
-    )
-      .then(r => r.json())
+    axios.get(PRODUCTS_URL)
       .then(resp => {
         dispatch({
           type: GET_PRODUCT_LIST_SUCCESS,
           payload: {
             loading: false,
             error: '',
-            data: resp,
+            data: resp.data,
           },
         });
       })
