@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
   },
   removeTxtStyle: {color: 'green', fontWeight: 'bold', fontSize: 16},
   cartTotalStyle: {
-    marginLeft: 8,
+    paddingHorizontal: 8,
     fontWeight: 'bold',
     fontSize:14
   },
